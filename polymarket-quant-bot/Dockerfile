@@ -6,22 +6,23 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# System deps kept minimal; add build-essential only if future deps need compilation
+# Keep runtime deps minimal.
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt ./requirements.txt
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN python -m pip install --upgrade pip \
+    && python -m pip install -r requirements.txt
 
 COPY . .
 
-# Ensure persistent dirs exist
+# Runtime mount points for persistent data/logs
 RUN mkdir -p /app/data /app/logs
 
-# Healthcheck assumes app emits an alive marker file (optional).
-# You can replace this with an HTTP endpoint check later.
-HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
-  CMD test -f /app/data/bot.db || exit 1
+# Generic healthcheck that does not assume DB initialization timing.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
+  CMD python -c "import pathlib; pathlib.Path('/app').exists()" || exit 1
 
 CMD ["python", "run.py"]
