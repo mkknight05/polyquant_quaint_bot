@@ -1,0 +1,26 @@
+# Core runtime
+pydantic==2.11.3
+pydantic-settings==2.9.1
+PyYAML==6.0.2
+python-dotenv==1.1.0
+
+# Networking
+httpx==0.28.1
+websockets==15.0.1
+
+# Data + metrics
+pandas==2.2.3
+numpy==2.2.4
+
+# Persistence
+sqlalchemy==2.0.40
+
+# Telegram control panel
+python-telegram-bot==22.0
+
+# Optional perf cache / queue (for VPS phase)
+redis==5.2.1
+
+# Production server + retries
+tenacity==9.0.0
+uvloop==0.21.0; platform_system != "Windows"
