@@ -1,32 +1,29 @@
-# Polymarket Quant Bot
+# Polymarket Quant Bot Workspace
 
-This project is a quantitative trading bot that interacts with the Polymarket platform to execute trades based on predefined strategies.
+This repository contains the infrastructure/bootstrap folder at:
 
-## Features
-- **Real-time Data:** Fetches real-time market data for analysis.
-- **Automated Trading:** Automatically executes trades based on market conditions.
-- **Backtesting:** Test strategies against historical data to evaluate performance.
+- `polymarket-quant-bot/`
 
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mkknight05/polymarket-quant-bot.git
-   cd polymarket-quant-bot
-   ```
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+Inside that folder, use `.env.example` + `run.py` to validate API readiness for Coinbase, OKX, Polymarket, Kalshi, Gemini, and Telegram before enabling any live trading code.
 
-## Usage
-1. Configure your API keys in the config.py file.
-2. Run the bot:
-   ```bash
-   python main.py
-   ```
+See:
 
-## Contributing
-Contributions are welcome! Please submit a pull request for any improvements or features.
+- `polymarket-quant-bot/README.md`
 
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- `polymarket-quant-bot/STRATEGY_GUIDE.md` (websites/apps + predefined strategy templates + bot comparison rubric)
+
+
+## Where Docker is used
+
+- Docker config is in `polymarket-quant-bot/Dockerfile` and `polymarket-quant-bot/docker-compose.yml`.
+- The containerized program is the Python bootstrap runner: `python run.py` (inside the `bot` service).
+- Start it from repo root with: `docker compose -f polymarket-quant-bot/docker-compose.yml up --build`.
+
+
+### Quick start from repository root
+
+```bash
+cp polymarket-quant-bot/.env.example polymarket-quant-bot/.env
+docker compose -f polymarket-quant-bot/docker-compose.yml up --build --abort-on-container-exit bot
+# in another terminal: docker compose -f polymarket-quant-bot/docker-compose.yml logs -f bot
+```
