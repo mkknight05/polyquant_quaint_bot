@@ -1,0 +1,6 @@
+bot:
+  name: polymarket-quant-bot
+  mode: ${BOT_MODE:-check}
+checks:
+  timeout_seconds: 10
+  require_auth_for_live: true
