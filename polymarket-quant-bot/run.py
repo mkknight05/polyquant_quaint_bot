@@ -2,10 +2,14 @@ from __future__ import annotations
 
 import os
 
-from api_check import run_all_checks
+from dotenv import load_dotenv
 
 
 def main() -> int:
+    load_dotenv()
+
+    from api_check import run_all_checks
+
     mode = os.getenv("BOT_MODE", "check").strip().lower()
 
     if mode == "live":
