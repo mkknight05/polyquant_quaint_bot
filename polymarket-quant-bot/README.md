@@ -61,7 +61,26 @@ If your network is slow, tune per-request timeout:
 API_CHECK_TIMEOUT_SECONDS=3 python run.py
 ```
 
-## 3) Move to live mode (next phase)
+
+## 3) Signal shadow-mode (next sprint step, still no orders)
+
+After checks pass, you can run read-only strategy signaling:
+
+```bash
+BOT_MODE=signal python run.py
+```
+
+What happens in `signal` mode:
+- runs all API readiness checks first
+- generates a deterministic read-only signal (no order placement)
+- sends the signal to Telegram (or prints preview when `SIGNAL_TELEGRAM_DRY_RUN=true`)
+
+Useful env vars:
+- `SIGNAL_STRATEGY_NAME` (default: `mean_reversion_stub`)
+- `SIGNAL_DEFAULT_MARKET` (default: `POLYMARKET:DEMO`)
+- `SIGNAL_TELEGRAM_DRY_RUN` (default: `true`)
+
+## 4) Move to live mode (next phase)
 
 Live trading is intentionally blocked in this bootstrap until strategy/execution code is integrated.
 
@@ -71,7 +90,7 @@ To prepare for that phase:
 3. add authenticated order-placement smoke tests in paper/sandbox mode
 4. then permit `BOT_MODE=live`
 
-## 4) Replace GitHub repo cleanly (avoid naming/version drift)
+## 5) Replace GitHub repo cleanly (avoid naming/version drift)
 
 If this folder is your canonical version, force-push it as the single source of truth:
 
@@ -99,7 +118,7 @@ docker compose down
 ```
 
 
-## 5) Strategy resources (new)
+## 6) Strategy resources (new)
 
 To help decision making and future benchmarking, use:
 
